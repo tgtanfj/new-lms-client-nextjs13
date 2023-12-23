@@ -5,9 +5,10 @@ import CourseInformation from "./course-information";
 import CourseOptions from "./course-options";
 import CourseData from "./course-data";
 import CourseContent from "./course-content";
+import CourseReview from "./course-review";
 
 const CreateCourse = () => {
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
   const [courseInfo, setCourseInfo] = useState({
     name: "",
     description: "",
@@ -37,7 +38,55 @@ const CreateCourse = () => {
   ]);
   const [courseData, setCourseData] = useState({});
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    // format benefits array
+    const formattedBenefits = benefits.map((benefit) => ({
+      title: benefit.title,
+    }));
+
+    // format prerequisites array
+    const formattedPrerequisites = benefits.map((prerequisite) => ({
+      title: prerequisite.title,
+    }));
+
+    // format course content array
+    const formattedCourseContentData = courseContentData.map(
+      (courseContent) => ({
+        videoUrl: courseContent.videoUrl,
+        title: courseContent.title,
+        description: courseContent.descriptions,
+        videoSection: courseContent.videoSection,
+        links: courseContent.links.map((link) => ({
+          title: link.title,
+          url: link.url,
+        })),
+        suggestion: courseContent.suggestion,
+      })
+    );
+
+    // prepare our data object
+    const data = {
+      name: courseInfo.name,
+      description: courseInfo.description,
+      price: courseInfo.price,
+      estimatedPrice: courseInfo.estimatedPrice,
+      tags: courseInfo.tags,
+      thumbnail: courseInfo.thumbnail,
+      level: courseInfo.level,
+      demoUrl: courseInfo.demoUrl,
+      totalVideos: courseContentData.length,
+      benefits: formattedBenefits,
+      prerequisites: formattedPrerequisites,
+      courseContentData: formattedCourseContentData,
+    };
+
+    setCourseData(data);
+    console.log(courseData);
+  };
+
+  const handleCourseCreate = async (e: any) => {
+    const data = courseData;
+  };
 
   return (
     <div className="w-full flex min-h-screen">
@@ -67,6 +116,14 @@ const CreateCourse = () => {
             active={active}
             setActive={setActive}
             handleSubmit={handleSubmit}
+          />
+        )}
+        {active === 3 && (
+          <CourseReview
+            active={active}
+            setActive={setActive}
+            handleCourseCreate={handleCourseCreate}
+            courseData={courseData}
           />
         )}
       </div>
