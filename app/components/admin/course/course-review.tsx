@@ -55,7 +55,7 @@ const CourseReview = ({
           <div
             className={`${styles.button} !w-[180px] my-3 font-Poppins !bg-[crimson] cursor-not-allowed`}
           >
-            Buy Now {courseData?.price}
+            Buy Now {courseData?.price}$
           </div>
         </div>
         <div className="flex items-center">

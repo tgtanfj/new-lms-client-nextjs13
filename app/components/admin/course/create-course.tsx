@@ -1,13 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CourseInformation from "./course-information";
 import CourseOptions from "./course-options";
 import CourseData from "./course-data";
 import CourseContent from "./course-content";
 import CourseReview from "./course-review";
+import { useCreateCourseMutation } from "@/redux/features/courses/coureseApi";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 const CreateCourse = () => {
+  const [CreateCourse, { isLoading, error, isSuccess }] =
+    useCreateCourseMutation();
+
   const [active, setActive] = useState(0);
   const [courseInfo, setCourseInfo] = useState({
     name: "",
@@ -81,12 +87,28 @@ const CreateCourse = () => {
     };
 
     setCourseData(data);
-    console.log(courseData);
   };
 
   const handleCourseCreate = async (e: any) => {
     const data = courseData;
+
+    if (!isLoading) {
+      await CreateCourse(data);
+    }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Course created successfully");
+      redirect("/admin/all-courses");
+    }
+    if (error) {
+      if ("data" in error) {
+        const errorMessage = error as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [isLoading, isSuccess, error]);
 
   return (
     <div className="w-full flex min-h-screen">
