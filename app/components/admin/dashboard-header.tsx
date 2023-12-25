@@ -1,3 +1,4 @@
+'use client'
 
 import ThemeSwitcher from "@/app/utils/theme-switcher"
 import { useState } from "react"

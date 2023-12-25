@@ -1,7 +1,7 @@
 'use client'
 
 import { MyProSidebarProvider } from "@/app/components/admin/admin-sidebar/sidebarContext"
-import AllCourses from "@/app/components/admin/course/AllCourses"
+import AllCourses from "@/app/components/admin/course/all-courses"
 import DashboardHero from "@/app/components/admin/dashboard-hero"
 import AdminProtected from "@/app/hooks/adminProtected"
 import Heading from "@/app/utils/Heading"

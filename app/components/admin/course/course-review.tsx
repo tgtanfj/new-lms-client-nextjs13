@@ -8,6 +8,7 @@ interface CourseReviewProps {
   setActive: (active: number) => void;
   courseData: any;
   handleCourseCreate: any;
+  isEdit?: boolean
 }
 
 const CourseReview = ({
@@ -15,6 +16,7 @@ const CourseReview = ({
   setActive,
   courseData,
   handleCourseCreate,
+  isEdit
 }: CourseReviewProps) => {
   const discountPercentenge =
     ((courseData?.estimatedPrice - courseData?.price) /
@@ -140,7 +142,9 @@ const CourseReview = ({
           onClick={() => createCourse()}
           className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
         >
-          Next
+          {
+            isEdit ? "Update": "Create"
+          }
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, createContext, useContext } from "react";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import AdminSidebar from "./admin-sidebar";

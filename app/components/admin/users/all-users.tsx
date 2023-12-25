@@ -27,9 +27,12 @@ const AllUsers = ({ isTeam }: AllUsersProps) => {
 
   const [updateUserRole, { isSuccess, error: updateUserRoleError }] =
     useUpdateUserRoleMutation();
-  const { data, isLoading, error } = useGetAllUsersQuery({});
+  const { data, isLoading, error, refetch } = useGetAllUsersQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
   const [deleteUser, { isSuccess: deleteUserSuccess, error: deleteUserError }] =
-    useDeleteUserMutation();
+    useDeleteUserMutation({});
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.3 },
@@ -126,9 +129,11 @@ const AllUsers = ({ isTeam }: AllUsersProps) => {
       if ("data" in updateUserRoleError) {
         const errorMessage = updateUserRoleError as any;
         toast.error(errorMessage.data.message);
+        setActive(false);
       }
     }
     if (isSuccess) {
+      refetch();
       toast.success("User role updated successfully");
       setActive(false);
     }
@@ -136,9 +141,11 @@ const AllUsers = ({ isTeam }: AllUsersProps) => {
       if ("data" in deleteUserError) {
         const errorMessage = deleteUserError as any;
         toast.error(errorMessage.data.message);
+        setOpen(false);
       }
     }
     if (deleteUserSuccess) {
+      refetch();
       toast.success("Deleted user successfully");
       setOpen(false);
     }
