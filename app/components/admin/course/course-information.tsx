@@ -1,7 +1,8 @@
 // need learn: drag drop files
 
 import { styles } from "@/app/styles/style";
-import { useState } from "react";
+import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
+import { useEffect, useState } from "react";
 
 interface CourseInformationProps {
   courseInfo: any;
@@ -17,6 +18,15 @@ const CourseInformation = ({
   setCourseInfo,
 }: CourseInformationProps) => {
   const [dragging, setDragging] = useState(false);
+
+  const { data } = useGetHeroDataQuery("Categories");
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setCategories(data.layout.categories);
+    }
+  }, [data]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -114,7 +124,7 @@ const CourseInformation = ({
               id="price"
             />
           </div>
-          <div className="w-[45%]">
+          <div className="w-[50%]">
             <label className={`${styles.label} w-[50%]`}>
               Estimated Price (optional)
             </label>
@@ -133,22 +143,42 @@ const CourseInformation = ({
           </div>
         </div>
         <br />
-        <div>
-          <label className={`${styles.label}`} htmlFor="email">
-            Course Tags
-          </label>
-          <input
-            name=""
-            type="text"
-            value={courseInfo.tags}
-            required
-            onChange={(e: any) =>
-              setCourseInfo({ ...courseInfo, tags: e.target.value })
-            }
-            className={`${styles.input} `}
-            placeholder="Nextjs 13, Reactjs, Socket io, tailwind css, MERN,..."
-            id="tags"
-          />
+        <div className="w-full flex justify-between ">
+          <div className="w-[45%]">
+            <label className={`${styles.label}`} htmlFor="email">
+              Course Tags
+            </label>
+            <input
+              name=""
+              type="text"
+              value={courseInfo.tags}
+              required
+              onChange={(e: any) =>
+                setCourseInfo({ ...courseInfo, tags: e.target.value })
+              }
+              className={`${styles.input} `}
+              placeholder="Nextjs 13, Reactjs, Socket io, tailwind css, MERN,..."
+              id="tags"
+            />
+          </div>
+          <div className="w-[50%]">
+            <label className={`${styles.label}`}>Course Categories</label>
+            <select
+              name=""
+              id=""
+              className={`${styles.input} `}
+              value={courseInfo.categories}
+              onChange={(e: any) => setCourseInfo({...courseInfo, categories: e.target.value})}
+            >
+              <option value="">Select Category</option>
+              {categories &&
+                categories.map((item: any) => (
+                  <option value={item.title} key={item._id}>
+                    {item.title}
+                  </option>
+                ))}
+            </select>
+          </div>
         </div>
         <br />
         <div className="w-full flex justify-between ">
