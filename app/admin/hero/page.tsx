@@ -1,10 +1,10 @@
 "use client";
 
-import DashboardHero from "@/app/components/admin/dashboard-hero";
 import AdminProtected from "@/app/hooks/adminProtected";
 import Heading from "@/app/utils/Heading";
 import EditHero from "@/app/components/Customization/edit-hero";
 import { MyProSidebarProvider } from "@/app/components/admin/admin-sidebar/sidebarContext";
+import DashboardHeader from "@/app/components/admin/dashboard-header";
 
 const HeroMainPage = () => {
   return (
@@ -20,7 +20,7 @@ const HeroMainPage = () => {
             <MyProSidebarProvider />
           </div>
           <div className="w-[85%]">
-            <DashboardHero />
+            <DashboardHeader />
             <EditHero />
           </div>
         </div>

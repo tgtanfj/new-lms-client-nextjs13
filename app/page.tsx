@@ -4,12 +4,12 @@ import React, {FC, useState} from "react"
 import Heading from "./utils/Heading";
 import Header from "./components/header";
 import Hero from "./components/hero";
+import Courses from "./components/route/courses";
+import Reviews from "./components/route/reviews";
+import FAQ from "./components/faq/faq";
+import Footer from "./components/footer/footer";
 
-interface Props {
-
-}
-
-const Page: FC<Props> = (props) => {
+const Page = () => {
   const [open, setOpen] = useState(false)
   const [activeItem, setActiveItem] = useState(0)
   const [route,setRoute] = useState("Login")
@@ -29,6 +29,10 @@ const Page: FC<Props> = (props) => {
         route={route}
       />
       <Hero/>
+      <Courses/>
+      <Reviews/>
+      <FAQ/>
+      <Footer/>
     </div>
   )
 }

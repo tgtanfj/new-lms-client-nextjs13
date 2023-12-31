@@ -19,7 +19,7 @@ const AdminMainPage = () => {
             <MyProSidebarProvider/>
           </div>
           <div className="w-[85%] ml-1">
-            <DashboardHero />
+            <DashboardHero isDashboard={true}/>
           </div>
         </div>
       </AdminProtected>

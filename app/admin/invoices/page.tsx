@@ -1,12 +1,16 @@
-'use client'
+"use client";
 
 import { MyProSidebarProvider } from "@/app/components/admin/admin-sidebar/sidebarContext";
 import DashboardHeader from "@/app/components/admin/dashboard-header";
-import AllUsers from "@/app/components/admin/users/all-users";
+import AllInvoices from "@/app/components/admin/invoice/all-invoices";
 import AdminProtected from "@/app/hooks/adminProtected";
 import Heading from "@/app/utils/Heading";
 
-const UserTeamPage = () => {
+interface AllInvoicesMainPageProps {
+  isDashboard: boolean;
+}
+
+const AllInvoicesMainPage = ({ isDashboard }: AllInvoicesMainPageProps) => {
   return (
     <div className="text-black dark:text-white">
       <AdminProtected>
@@ -19,9 +23,9 @@ const UserTeamPage = () => {
           <div className="1500px:w-[16%] w-1/5">
             <MyProSidebarProvider />
           </div>
-          <div className="w-[85%] ml-1">
+          <div className="w-[85%]">
             <DashboardHeader />
-            <AllUsers isTeam={true}/>
+            <AllInvoices isDashboard={isDashboard} />
           </div>
         </div>
       </AdminProtected>
@@ -29,4 +33,4 @@ const UserTeamPage = () => {
   );
 };
 
-export default UserTeamPage;
+export default AllInvoicesMainPage;

@@ -1,7 +1,7 @@
 'use client'
 
 import { MyProSidebarProvider } from "@/app/components/admin/admin-sidebar/sidebarContext";
-import DashboardHero from "@/app/components/admin/dashboard-hero";
+import DashboardHeader from "@/app/components/admin/dashboard-header";
 import AllUsers from "@/app/components/admin/users/all-users";
 import AdminProtected from "@/app/hooks/adminProtected";
 import Heading from "@/app/utils/Heading";
@@ -20,7 +20,7 @@ const UserMainPage = () => {
             <MyProSidebarProvider />
           </div>
           <div className="w-[85%] ml-1">
-            <DashboardHero />
+            <DashboardHeader />
             <AllUsers/>
           </div>
         </div>

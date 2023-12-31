@@ -8,17 +8,17 @@ body,
   height: 100%;
 } */
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 8px;
 }
 
 /* Track */
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
   background: #1771c6;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
   background: #f5f5f5b0;
 }
 
@@ -50,6 +50,11 @@ body {
     hsla(239, 76%, 53%, 0.456) 10.41%,
     hsla(0, 0%, 100%, 0) 89.25%
   );
+  animation: changeBackgroundColor 8s infinite alternate;
+}
+
+.text_animation {
+  background-image: linear-gradient(147.92deg, #5200ae, #4062bb);
   animation: changeBackgroundColor 8s infinite alternate;
 }
 

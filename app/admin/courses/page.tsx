@@ -2,7 +2,7 @@
 
 import { MyProSidebarProvider } from "@/app/components/admin/admin-sidebar/sidebarContext"
 import AllCourses from "@/app/components/admin/course/all-courses"
-import DashboardHero from "@/app/components/admin/dashboard-hero"
+import DashboardHeader from "@/app/components/admin/dashboard-header"
 import AdminProtected from "@/app/hooks/adminProtected"
 import Heading from "@/app/utils/Heading"
 
@@ -20,7 +20,7 @@ const CoursesMainPage = () => {
             <MyProSidebarProvider/>
           </div>
           <div className="w-[85%] ml-1">
-            <DashboardHero />
+            <DashboardHeader />
             <AllCourses/>
           </div>
         </div>
