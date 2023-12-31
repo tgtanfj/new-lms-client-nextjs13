@@ -9,8 +9,6 @@ const Courses = () => {
 
   const [courses, setCourses] = useState<any[]>([]);
 
-  console.log("data", data);
-
   useEffect(() => {
     if (data) {
       setCourses(data?.courses);

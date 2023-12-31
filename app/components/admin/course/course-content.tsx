@@ -56,6 +56,7 @@ const CourseContent = ({
       item.title === "" ||
       item.description === "" ||
       item.videoUrl === "" ||
+      item.videoLength === "" ||
       item.links[0].title === "" ||
       item.links[0].url === ""
     ) {
@@ -76,6 +77,7 @@ const CourseContent = ({
         videoUrl: "",
         title: "",
         description: "",
+        videoLength: "",
         videoSection: newVideoSection,
         links: [{ title: "", url: "" }],
       };
@@ -87,6 +89,7 @@ const CourseContent = ({
     if (
       courseContentData[courseContentData.length - 1].title === "" ||
       courseContentData[courseContentData.length - 1].description === "" ||
+      courseContentData[courseContentData.length - 1].videoLength === "" ||
       courseContentData[courseContentData.length - 1].videoUrl === "" ||
       courseContentData[courseContentData.length - 1].links[0].title === "" ||
       courseContentData[courseContentData.length - 1].links[0].url === ""
@@ -98,6 +101,7 @@ const CourseContent = ({
         videoUrl: "",
         title: "",
         description: "",
+        videoLength: "",
         videoSection: `Untitled Section ${activeSection}`,
         links: [{ title: "", url: "" }],
       };
@@ -113,6 +117,7 @@ const CourseContent = ({
     if (
       courseContentData[courseContentData.length - 1].title === "" ||
       courseContentData[courseContentData.length - 1].description === "" ||
+      courseContentData[courseContentData.length - 1].videoLength === "" ||
       courseContentData[courseContentData.length - 1].videoUrl === "" ||
       courseContentData[courseContentData.length - 1].links[0].title === "" ||
       courseContentData[courseContentData.length - 1].links[0].url === ""
@@ -237,7 +242,9 @@ const CourseContent = ({
                       />
                     </div>
                     <div className="my-3">
-                      <label className={`${styles.label}`}>Video Length (in minutes)</label>
+                      <label className={`${styles.label}`}>
+                        Video Length (in minutes)
+                      </label>
                       <input
                         type="text"
                         className={`${styles.input}`}
