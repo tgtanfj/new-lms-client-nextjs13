@@ -1,10 +1,15 @@
 import { useGetCourseDetailsQuery } from "@/redux/features/courses/coureseApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../loader/loader";
 import Heading from "@/app/utils/Heading";
 import Header from "../header";
 import Footer from "../footer/footer";
 import CourseDetails from "./course-details";
+import {
+  useCreatePaymentIntentMutation,
+  useGetStripePublishablekeyQuery,
+} from "@/redux/features/orders/orderApi";
+import { loadStripe } from "@stripe/stripe-js";
 
 interface CourseDetailPageProps {
   courseId: string;
@@ -12,9 +17,32 @@ interface CourseDetailPageProps {
 
 const CourseDetailPage = ({ courseId }: CourseDetailPageProps) => {
   const { data, isLoading } = useGetCourseDetailsQuery(courseId);
+  const { data: config } = useGetStripePublishablekeyQuery({});
+  const [createPaymentIntent, { data: paymentIntentData }] =
+    useCreatePaymentIntentMutation();
+
+  const [stripePromise, setStripePromise] = useState<any>(null);
+  const [clientSecret, setClientSecret] = useState("");
 
   const [route, setRoute] = useState("Login");
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (config) {
+      const publishablekey = config?.publishablekey;
+      setStripePromise(loadStripe(publishablekey));
+    }
+    if (data) {
+      const amount = Math.round(data.course.price * 100);
+      createPaymentIntent(amount);
+    }
+  }, [config, data]);
+
+  useEffect(() => {
+    if (paymentIntentData) {
+      setClientSecret(paymentIntentData?.client_secret);
+    }
+  }, [paymentIntentData]);
 
   return (
     <>
@@ -34,8 +62,14 @@ const CourseDetailPage = ({ courseId }: CourseDetailPageProps) => {
             setOpen={setOpen}
             activeItem={1}
           />
-          <CourseDetails data={data?.course}/>
-          <Footer/>
+          {stripePromise && (
+            <CourseDetails
+              data={data?.course}
+              stripePromise={stripePromise}
+              clientSecret={clientSecret}
+            />
+          )}
+          <Footer />
         </div>
       )}
     </>

@@ -4,17 +4,28 @@ import { styles } from "@/app/styles/style";
 import CoursePlayer from "@/app/utils/course-player";
 import Ratings from "@/app/utils/ratings";
 import Link from "next/link";
-import { IoCheckmarkDoneOutline } from "react-icons/io5";
+import { IoCheckmarkDoneOutline, IoCloseOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { format } from "timeago.js";
 import CourseContentList from "./course-content-list";
+import { useState } from "react";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "../payment/checkout-form";
 
 interface CourseDetailProps {
   data: any;
+  stripePromise: any;
+  clientSecret: string;
 }
 
-const CourseDetails = ({ data }: CourseDetailProps) => {
+const CourseDetails = ({
+  data,
+  stripePromise,
+  clientSecret,
+}: CourseDetailProps) => {
   const { user } = useSelector((state: any) => state.auth);
+
+  const [open, setOpen] = useState(false);
 
   const discountPercentenge =
     ((data?.estimatedPrice - data?.price) / data?.estimatedPrice) * 100;
@@ -24,7 +35,7 @@ const CourseDetails = ({ data }: CourseDetailProps) => {
     user && user?.courses?.find((item: any) => item._id === data._id);
 
   const handleOrder = (e: any) => {
-    console.log("mc vo dich");
+    setOpen(true);
   };
 
   return (
@@ -91,7 +102,7 @@ const CourseDetails = ({ data }: CourseDetailProps) => {
               <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
                 Course Overview
               </h1>
-              <CourseContentList data={data?.courseData} isDemo={true}/>
+              <CourseContentList data={data?.courseData} isDemo={true} />
             </div>
             <br />
             <br />
@@ -187,14 +198,44 @@ const CourseDetails = ({ data }: CourseDetailProps) => {
                 )}
               </div>
               <br />
-              <p className="pb-1 text-black dark:text-white">• Source code included</p>
-              <p className="pb-1 text-black dark:text-white">• Full lifetime access</p>
-              <p className="pb-1 text-black dark:text-white">• Certificate of completion</p>
-              <p className="pb-1 text-black dark:text-white">• Premium Support</p>
+              <p className="pb-1 text-black dark:text-white">
+                • Source code included
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                • Full lifetime access
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                • Certificate of completion
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                • Premium Support
+              </p>
             </div>
           </div>
         </div>
       </div>
+      <>
+        {open && (
+          <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center">
+            <div className="w-[500px] min-h-[420px] bg-white rounded-xl shadow p-3">
+              <div className="w-full flex justify-end">
+                <IoCloseOutline
+                  size={40}
+                  className="text-black cursor-pointer"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+              <div className="w-full">
+                {stripePromise && clientSecret && (
+                  <Elements options={{ clientSecret }} stripe={stripePromise}>
+                    <CheckoutForm setOpen={setOpen} data={data} />
+                  </Elements>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </>
     </div>
   );
 };
