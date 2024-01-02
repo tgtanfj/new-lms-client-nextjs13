@@ -11,6 +11,7 @@ import CourseContentList from "./course-content-list";
 import { useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../payment/checkout-form";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 
 interface CourseDetailProps {
   data: any;
@@ -23,7 +24,8 @@ const CourseDetails = ({
   stripePromise,
   clientSecret,
 }: CourseDetailProps) => {
-  const { user } = useSelector((state: any) => state.auth);
+  const {data:userData}= useLoadUserQuery(undefined, {})
+  const user = userData?.user
 
   const [open, setOpen] = useState(false);
 

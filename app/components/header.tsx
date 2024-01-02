@@ -55,14 +55,15 @@ const Header = ({
         });
       }
     }
-    if (data === null) {
+    if (data !== null) {
       if (isSuccess) {
         toast.success("Login Successfully");
       }
     }
-    if (data === null) {
-      setLogout(true);
-    }
+    // tam thoi comment lai
+    // if (data === null) {
+    //   setLogout(true);
+    // }
   }, [data, user]);
 
   if (typeof window !== "undefined") {
