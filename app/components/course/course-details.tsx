@@ -12,6 +12,9 @@ import { useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../payment/checkout-form";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
+import Image from "next/image";
+import defaultAvatar from "../../../public/images/avatar.jpg";
+import { VscVerifiedFilled } from "react-icons/vsc";
 
 interface CourseDetailProps {
   data: any;
@@ -24,8 +27,8 @@ const CourseDetails = ({
   stripePromise,
   clientSecret,
 }: CourseDetailProps) => {
-  const {data:userData}= useLoadUserQuery(undefined, {})
-  const user = userData?.user
+  const { data: userData } = useLoadUserQuery(undefined, {});
+  const user = userData?.user;
 
   const [open, setOpen] = useState(false);
 
@@ -129,43 +132,80 @@ const CourseDetails = ({
                     Course Rating • {data?.reviews?.length} Reviews
                   </h5>
                 </div>
-                <br />
-                {(data?.reviews && [...data.reviews].reverse()).map(
-                  (item: any, index: number) => (
-                    <div className="w-full pb-4" key={index}>
-                      <div className="flex">
+              </div>
+              <br />
+              {(data?.reviews && [...data.reviews].reverse()).map(
+                (item: any, index: number) => (
+                  <div className="w-full pb-4" key={index}>
+                    <div className="flex">
+                      <div className="w-[50px] h-[50px]">
                         <div className="w-[50px] h-[50px]">
-                          <div className="w-[50px] h-[50px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
-                            <h1 className="uppercase text-[18px] text-black dark:text-white">
-                              {item?.user?.name.slice(0, 2)}
-                            </h1>
-                          </div>
+                          <Image
+                            width={50}
+                            height={50}
+                            alt="avatar"
+                            className="rounded-full w-[50px] h-[50px] object-cover"
+                            src={
+                              item?.user.avatar
+                                ? item?.user?.avatar?.url
+                                : defaultAvatar
+                            }
+                          />
                         </div>
-                        <div className="hidden 800px:block pl-2">
-                          <div className="flex items-center">
-                            <h5 className="text-[18px] pr-2 text-black dark:text-white">
-                              {item?.user?.name}
-                            </h5>
-                            <Ratings rating={item.rating} />
-                          </div>
-                          <p className="text-black dark:text-white">
-                            {item?.comment}
-                          </p>
-                          <small className="text-[#000000d1] dark:text-[#ffffff83]">
-                            {format(item?.createdAt)}
-                          </small>
-                        </div>
-                        <div className="pl-2 flex 800px:hidden items-center">
-                          <h5 className="text-[18x] pr-2 text-black dark:text-white">
+                      </div>
+                      <div className="hidden 800px:block pl-2">
+                        <div className="flex items-center">
+                          <h5 className="text-[18px] pr-2 text-black dark:text-white">
                             {item?.user?.name}
                           </h5>
                           <Ratings rating={item.rating} />
                         </div>
+                        <p className="text-black dark:text-white">
+                          {item?.comment}
+                        </p>
+                        <small className="text-[#000000d1] dark:text-[#ffffff83]">
+                          {format(item?.createdAt)}
+                        </small>
+                      </div>
+                      <div className="pl-2 flex 800px:hidden items-center">
+                        <h5 className="text-[18x] pr-2 text-black dark:text-white">
+                          {item?.user?.name}
+                        </h5>
+                        <Ratings rating={item.rating} />
                       </div>
                     </div>
-                  )
-                )}
-              </div>
+                    {item?.commentReplies?.map((i: any, index: number) => (
+                      <div className="w-full flex 800px:ml-16 my-5">
+                        <div className="w-[50px] h-[50px]">
+                          <Image
+                            width={50}
+                            height={50}
+                            alt="avatar"
+                            className="rounded-full w-[50px] h-[50px] object-cover"
+                            src={
+                              i?.user.avatar
+                                ? i?.user?.avatar?.url
+                                : defaultAvatar
+                            }
+                          />
+                        </div>
+                        <div className="pl-2">
+                          <div className="flex items-center">
+                            <h5 className="text-[20px]">{i?.user?.name}</h5>
+                            {i.user.role === "admin" && (
+                              <VscVerifiedFilled className="text-[#548cf7] ml-2" />
+                            )}
+                          </div>
+                          <p>{i.comment}</p>
+                          <small className="dark:text-[#ffffff83] text-[#00000096]">
+                            {format(i.createdAt)}
+                          </small>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )
+              )}
             </div>
           </div>
           <div className="w-full 800px:w-[35%] relative">
