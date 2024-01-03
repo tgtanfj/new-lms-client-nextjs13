@@ -33,6 +33,7 @@ const EditCourse = ({ courseId }: EditCourseProps) => {
   const [courseInfo, setCourseInfo] = useState({
     name: "",
     description: "",
+    categories: "",
     price: "",
     estimatedPrice: "",
     tags: "",
@@ -63,6 +64,7 @@ const EditCourse = ({ courseId }: EditCourseProps) => {
       setCourseInfo({
         name: editCourseData.name,
         description: editCourseData.description,
+        categories: editCourseData.categories,
         price: editCourseData.price,
         estimatedPrice: editCourseData.estimatedPrice,
         tags: editCourseData.tags,
@@ -106,6 +108,7 @@ const EditCourse = ({ courseId }: EditCourseProps) => {
     const data = {
       name: courseInfo.name,
       description: courseInfo.description,
+      categories: courseInfo.categories,
       price: courseInfo.price,
       estimatedPrice: courseInfo.estimatedPrice,
       tags: courseInfo.tags,

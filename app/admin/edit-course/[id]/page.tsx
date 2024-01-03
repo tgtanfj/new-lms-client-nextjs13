@@ -20,7 +20,6 @@ const EditCourseMainPage = ({params}: any) => {
         </div>
         <div className="w-[85%]">
           <DashboardHeader/>
-          {/* <CreateCourse/> */}
           <EditCourse courseId={courseId}/>
         </div>
       </div>

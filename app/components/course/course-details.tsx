@@ -8,29 +8,38 @@ import { IoCheckmarkDoneOutline, IoCloseOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { format } from "timeago.js";
 import CourseContentList from "./course-content-list";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../payment/checkout-form";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Image from "next/image";
 import defaultAvatar from "../../../public/images/avatar.jpg";
 import { VscVerifiedFilled } from "react-icons/vsc";
+import toast from "react-hot-toast";
 
 interface CourseDetailProps {
   data: any;
   stripePromise: any;
   clientSecret: string;
+  setRoute: any;
+  setOpen: any;
 }
 
 const CourseDetails = ({
   data,
   stripePromise,
   clientSecret,
+  setRoute,
+  setOpen: setOpenAuthModal,
 }: CourseDetailProps) => {
   const { data: userData } = useLoadUserQuery(undefined, {});
-  const user = userData?.user;
 
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState<any>();
+
+  useEffect(() => {
+    setUser(userData?.user);
+  }, [userData]);
 
   const discountPercentenge =
     ((data?.estimatedPrice - data?.price) / data?.estimatedPrice) * 100;
@@ -40,7 +49,13 @@ const CourseDetails = ({
     user && user?.courses?.find((item: any) => item._id === data._id);
 
   const handleOrder = (e: any) => {
-    setOpen(true);
+    if (user) {
+      setOpen(true);
+    } else {
+      toast.error("You have to login to buy course");
+      setRoute("Login");
+      setOpenAuthModal(true);
+    }
   };
 
   return (

@@ -18,11 +18,11 @@ const CreateCourse = () => {
   const [courseInfo, setCourseInfo] = useState({
     name: "",
     description: "",
+    categories: "",
     price: "",
     estimatedPrice: "",
     tags: "",
     level: "",
-    categories: "",
     demoUrl: "",
     thumbnail: "",
   });
@@ -77,6 +77,7 @@ const CreateCourse = () => {
     const data = {
       name: courseInfo.name,
       description: courseInfo.description,
+      categories: courseInfo.categories,
       price: courseInfo.price,
       estimatedPrice: courseInfo.estimatedPrice,
       tags: courseInfo.tags,

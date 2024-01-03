@@ -4,6 +4,7 @@ import { MyProSidebarProvider } from "@/app/components/admin/admin-sidebar/sideb
 import Heading from "@/app/utils/Heading";
 import CreateCourse from "@/app/components/admin/course/create-course";
 import DashboardHeader from "@/app/components/admin/dashboard-header";
+import { useEffect, useState } from "react";
 
 const CreateCourseMainPage = () => {
   return (
@@ -18,8 +19,8 @@ const CreateCourseMainPage = () => {
           <MyProSidebarProvider />
         </div>
         <div className="w-[85%]">
-          <DashboardHeader/>
-          <CreateCourse/>
+          <DashboardHeader />
+          <CreateCourse />
         </div>
       </div>
     </div>
