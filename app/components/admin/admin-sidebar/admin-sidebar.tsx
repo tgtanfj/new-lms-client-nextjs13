@@ -157,6 +157,7 @@ const AdminSidebar = () => {
                     borderRadius: "50%",
                     border: "3px solid #5b6fe6",
                   }}
+                  className="w-[100px] h-[100px]"
                 />
               </Box>
               <Box textAlign="center">

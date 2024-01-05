@@ -6,6 +6,7 @@ import Protected from "../hooks/useProtected";
 import Heading from "../utils/Heading";
 import Profile from "../components/profile/page";
 import { useSelector } from "react-redux";
+import Footer from "../components/footer/footer";
 
 interface ProfilePageProps {}
 
@@ -16,7 +17,7 @@ const ProfilePage = () => {
   const { user } = useSelector((state: any) => state.auth);
 
   return (
-    <div className="text-black dark:text-white">
+    <div className="min-h-screen text-black dark:text-white">
       <Protected>
         <Heading
           title={`${user?.name} profile - ELearning`}
@@ -31,6 +32,7 @@ const ProfilePage = () => {
           route={route}
         />
         <Profile user={user} />
+        <Footer/>
       </Protected>
     </div>
   );

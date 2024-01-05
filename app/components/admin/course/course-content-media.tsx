@@ -336,6 +336,7 @@ const CourseContentMedia = ({
               user={user}
               setQuestionId={setQuestionId}
               answerCreationLoading={answerCreationLoading}
+              questionId={questionId}
             />
           </div>
         </>
@@ -435,7 +436,7 @@ const CourseContentMedia = ({
                         </small>
                       </div>
                     </div>
-                    {user.role === "admin" && (
+                    {user.role === "admin" && item.commentReplies.length === 0 && (
                       <span
                         onClick={() => {
                           setIsReviewReply(true), setReviewId(item?._id);
@@ -445,7 +446,7 @@ const CourseContentMedia = ({
                         Add Reply
                       </span>
                     )}
-                    {isReviewReply && (
+                    {isReviewReply && reviewId === item._id && (
                       <div className="w-full flex relative">
                         <input
                           type="text"
@@ -516,6 +517,7 @@ interface CommentReplyProps {
   user: any;
   setQuestionId: any;
   answerCreationLoading: any;
+  questionId:any
 }
 
 const CommentReply = ({
@@ -527,6 +529,7 @@ const CommentReply = ({
   user,
   setQuestionId,
   answerCreationLoading,
+  questionId
 }: CommentReplyProps) => {
   return (
     <div>
@@ -544,6 +547,7 @@ const CommentReply = ({
               setQuestionId={setQuestionId}
               handleAnswerSubmit={handleAnswerSubmit}
               answerCreationLoading={answerCreationLoading}
+              questionId={questionId}
             />
           ))}
         </div>
@@ -562,6 +566,7 @@ interface CommentItemProps {
   handleAnswerSubmit: any;
   setAnswer: any;
   answerCreationLoading: any;
+  questionId:any
 }
 
 const CommentItem = ({
@@ -574,6 +579,7 @@ const CommentItem = ({
   setQuestionId,
   handleAnswerSubmit,
   answerCreationLoading,
+  questionId
 }: CommentItemProps) => {
   const [replyActive, setReplyActive] = useState(false);
 
@@ -623,7 +629,7 @@ const CommentItem = ({
             {question.questionReplies.length}
           </span>
         </div>
-        {replyActive && (
+        {replyActive && questionId === question._id && (
           <>
             {question?.questionReplies.map((item: any) => (
               <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">

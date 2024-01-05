@@ -38,7 +38,6 @@ const CoursesPage = () => {
         )
       );
     }
-    console.log(courses)
   }, [data, category, search]);
 
   const categories = categoriesData?.layout.categories;
