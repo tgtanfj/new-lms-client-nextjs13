@@ -10,13 +10,17 @@ import {
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import socketIO from "socket.io-client";
+const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URL || "";
+const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 interface CheckoutFormProps {
   setOpen: any;
   data: any;
+  user: any;
 }
 
-const CheckoutForm = ({ data, setOpen }: CheckoutFormProps) => {
+const CheckoutForm = ({ data, setOpen, user }: CheckoutFormProps) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -52,6 +56,11 @@ const CheckoutForm = ({ data, setOpen }: CheckoutFormProps) => {
   useEffect(() => {
     if (orderData) {
       setLoadUser(true);
+      socketId.emit("notification", {
+        title: "New Order",
+        message: `You have a new order from ${data?.name}`,
+        userId: user?._id,
+      });
       redirect(`/course-access/${data._id}`);
     }
     if (error) {

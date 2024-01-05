@@ -18,6 +18,7 @@ import {
   useSocialAuthMutation,
 } from "@/redux/features/auth/authApi";
 import toast from "react-hot-toast";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 
 interface HeaderProps {
   open: boolean;
@@ -36,23 +37,30 @@ const Header = ({
 }: HeaderProps) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const { user } = useSelector((state: any) => state.auth);
+  // const { user } = useSelector((state: any) => state.auth);
+  const {
+    data: userData,
+    isLoading,
+    refetch,
+  } = useLoadUserQuery(undefined, {});
   const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
   const { data } = useSession();
-
   const [logout, setLogout] = useState(false);
   const {} = useLogoutQuery(undefined, {
     skip: !logout ? true : false,
   });
 
   useEffect(() => {
-    if (!user) {
-      if (data) {
-        socialAuth({
-          email: data?.user?.email,
-          name: data?.user?.name,
-          avatar: data?.user?.image,
-        });
+    if (!isLoading) {
+      if (!userData) {
+        if (data) {
+          socialAuth({
+            email: data?.user?.email,
+            name: data?.user?.name,
+            avatar: data?.user?.image,
+          });
+          refetch();
+        }
       }
     }
     if (data !== null) {
@@ -60,11 +68,10 @@ const Header = ({
         toast.success("Login Successfully");
       }
     }
-    // tam thoi comment lai
-    // if (data === null) {
-    //   setLogout(true);
-    // }
-  }, [data, user]);
+    if (data === null && !isLoading && !userData) {
+      setLogout(true);
+    }
+  }, [data, userData, isLoading]);
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
@@ -108,15 +115,17 @@ const Header = ({
                   onClick={() => setOpenSidebar(true)}
                 />
               </div>
-              {user ? (
+              {userData ? (
                 <Link href={"/profile"}>
                   <Image
                     width={20}
                     height={20}
-                    src={user.avatar ? user.avatar.url : avatar}
+                    src={userData?.user.avatar ? userData?.user.avatar.url : avatar}
                     alt="avatar"
                     className="w-[30px] h-[30px] rounded-full cursor-pointer object-cover"
-                    style={{border: activeItem === 5 ? "2px solid #37a39a" : ""}}
+                    style={{
+                      border: activeItem === 5 ? "2px solid #37a39a" : "",
+                    }}
                   />
                 </Link>
               ) : (
@@ -138,15 +147,17 @@ const Header = ({
           >
             <div className="w-[70%] fixed z-[999999999] h-screen bg-white darkbg-slate-900 dark:bg-opacity-90 top-0 right-0">
               <NavItems activeItem={activeItem} isMobile={true} />
-              {user ? (
+              {userData ? (
                 <>
                   <Image
                     width={20}
                     height={20}
-                    src={user.avatar ? user.avatar.url : avatar}
+                    src={userData?.user.avatar ? userData?.user.avatar.url : avatar}
                     alt="avatar"
                     className="w-[30px] h-[30px] rounded-full cursor-pointer"
-                    style={{border: activeItem === 5 ? "2px solid #ffc107" : ""}}
+                    style={{
+                      border: activeItem === 5 ? "2px solid #ffc107" : "",
+                    }}
                   />
                 </>
               ) : (
@@ -174,6 +185,7 @@ const Header = ({
               setRoute={setRoute}
               activeItem={activeItem}
               component={Login}
+              refetch={refetch}
             />
           )}
         </>
