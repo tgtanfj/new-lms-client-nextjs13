@@ -10,7 +10,8 @@ interface AllInvoicesMainPageProps {
   isDashboard: boolean;
 }
 
-const AllInvoicesMainPage = ({ isDashboard }: AllInvoicesMainPageProps) => {
+const AllInvoicesMainPage = () => {
+
   return (
     <div className="text-black dark:text-white">
       <AdminProtected>
@@ -25,7 +26,7 @@ const AllInvoicesMainPage = ({ isDashboard }: AllInvoicesMainPageProps) => {
           </div>
           <div className="w-[85%]">
             <DashboardHeader />
-            <AllInvoices isDashboard={isDashboard} />
+            <AllInvoices isDashboard={false} />
           </div>
         </div>
       </AdminProtected>

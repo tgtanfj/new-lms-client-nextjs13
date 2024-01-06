@@ -1,8 +1,9 @@
+'use client'
+
 import React, { useEffect, useState } from "react";
 import SidebarProfile from "./sidebar-profile";
 import { useLogoutQuery } from "../../../redux/features/auth/authApi";
 import { signOut } from "next-auth/react";
-import { redirect } from "next/navigation";
 import ProfileInfo from "./profile-info";
 import ChangePassword from "./change-password";
 import CourseCard from "../course/course-card";

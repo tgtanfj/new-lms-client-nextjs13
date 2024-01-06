@@ -269,7 +269,7 @@ const CourseContentMedia = ({
       {activeBar === 1 && (
         <div>
           {data[activeVideo]?.links.map((item: any, index: number) => (
-            <div className="mb-5">
+            <div key={index} className="mb-5">
               <h2 className="800px:text-[20px] 800px:inline-block">
                 {item.title && item.title + " :"}
               </h2>
@@ -416,7 +416,7 @@ const CourseContentMedia = ({
             <div className="w-full">
               {(course?.reviews && [...course?.reviews].reverse())?.map(
                 (item: any, index: number) => (
-                  <div className="w-full my-5">
+                  <div key={index} className="w-full my-5">
                     <div className="w-full flex">
                       <div>
                         <Image
@@ -469,7 +469,7 @@ const CourseContentMedia = ({
                       </div>
                     )}
                     {item?.commentReplies?.map((i: any, index: number) => (
-                      <div className="w-full flex 800px:ml-16 my-5">
+                      <div key={index} className="w-full flex 800px:ml-16 my-5">
                         <div className="w-[50px] h-[50px]">
                           <Image
                             width={50}
@@ -631,8 +631,8 @@ const CommentItem = ({
         </div>
         {replyActive && questionId === question._id && (
           <>
-            {question?.questionReplies.map((item: any) => (
-              <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
+            {question?.questionReplies.map((item: any, index:number) => (
+              <div key={index} className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
                 <div>
                   <Image
                     width={50}
